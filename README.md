@@ -7,7 +7,7 @@
 - **Harsh GUPTA:** :harshrg.comp_ioe@bkc.met.edu
 - **Datta Jadhav:** :dattaj302@gmail.com
 - **Digambar Nerkar:** :nerkardigambar8@gmail.com
-- **Sahil Khairnar :** :hshlkhairnar@gmail.com 
+- **Sahil Khairnar :** :shlkhairnar@gmail.com 
 - 
 
 
