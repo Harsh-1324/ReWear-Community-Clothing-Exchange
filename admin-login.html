@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            background: #8c0d4f;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .auth-form {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            transform: scale(0.8);
+            animation: scaleIn 0.4s ease-out forwards;
+        }
+
+        @keyframes scaleIn {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .auth-form h2 {
+            margin-bottom: 20px;
+            color: #8c0d4f;
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .auth-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8c0d4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .auth-form button:hover {
+            background-color: #6a093e;
+        }
+
+        .tick {
+            display: none;
+            font-size: 50px;
+            color: #2ecc71;
+            margin-top: 20px;
+            animation: bounce 0.6s ease;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #0b91f0;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-form">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <input type="email" placeholder="Admin Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div class="signup-link" id="adminSignupBtn">Don't have an account? Sign up</div>
+        <div class="tick" id="tick">✅</div>
+    </div>
+
+    <script>
+        const form = document.getElementById("loginForm");
+        const tick = document.getElementById("tick");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+            tick.style.display = "block";
+        });
+
+
+        const signupBtn = document.getElementById("adminSignupBtn");
+        signupBtn.addEventListener("click", () => {
+            document.body.style.opacity = 0;
+            setTimeout(() => {
+                window.location.href = "admin-signup.html";
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

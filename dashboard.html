@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .header {
+      background-color:  #8c0d4f;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .dashboard {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .dashboard h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    .user-info, .user-wishlist, .user-points {
+      background: #f9f9f9;
+      padding: 15px;
+      border-left: 5px solid   #8c0d4f;
+      margin-bottom: 20px;
+    }
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Welcome to Your Dashboard</h1>
+  </div>
+  <div class="dashboard">
+    <h2>User Details</h2>
+    <div class="user-info">
+      <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+    </div>
+
+    <div class="user-points">
+      <h3>Exchange Points</h3>
+      <p><strong>Points:</strong> <span id="userPoints">Loading...</span></p>
+    </div>
+
+    <div class="user-wishlist">
+      <h3>Your Wishlist</h3>
+      <ul id="wishlist">
+        <li>Loading...</li>
+      </ul>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7MEebkECpfc2yoDOb4szwpAKx6oOnO3c",
+      authDomain: "cloth-exchange-ea1a9.firebaseapp.com",
+      databaseURL: "https://cloth-exchange-ea1a9-default-rtdb.firebaseio.com",
+      projectId: "cloth-exchange-ea1a9",
+      storageBucket: "cloth-exchange-ea1a9.appspot.com",
+      messagingSenderId: "1065263276976",
+      appId: "1:1065263276976:web:b00641fef1f7aa186d6c75",
+      measurementId: "G-PSLDEDXCK1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const userEmail = sessionStorage.getItem("userEmail");
+
+    async function fetchUserData() {
+      try {
+        const snapshot = await get(child(ref(db), 'users'));
+        if (snapshot.exists()) {
+          const users = snapshot.val();
+          let user = null;
+
+          for (const key in users) {
+            if (users[key].email === userEmail) {
+              user = users[key];
+              break;
+            }
+          }
+
+          if (user) {
+            document.getElementById("userName").textContent = user.name || "-";
+            document.getElementById("userEmail").textContent = user.email;
+            document.getElementById("userPoints").textContent = user.points || 0;
+
+            const wishlist = user.wishlist || [];
+            const wishlistEl = document.getElementById("wishlist");
+            wishlistEl.innerHTML = wishlist.length > 0
+              ? wishlist.map(item => `<li>${item}</li>`).join('')
+              : '<li>No items in wishlist.</li>';
+          } else {
+            alert("User not found.");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
+
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>

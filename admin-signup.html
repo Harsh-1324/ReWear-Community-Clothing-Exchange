@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign Up</title>
+  <style>
+    body {
+      background: #8c0d4f;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .auth-form {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      width: 320px;
+      transform: scale(0.8);
+      animation: scaleIn 0.4s ease-out forwards;
+    }
+    @keyframes scaleIn {
+      to {
+        transform: scale(1);
+      }
+    }
+    .auth-form h2 {
+      margin-bottom: 20px;
+      color: #8c0d4f;
+    }
+    .auth-form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .auth-form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #8c0d4f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .auth-form button:hover {
+      background-color: #6a093e;
+    }
+    .tick {
+      display: none;
+      font-size: 50px;
+      color: #2ecc71;
+      margin-top: 20px;
+      animation: bounce 0.6s ease;
+    }
+    @keyframes bounce {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB7MEebkECpfc2yoDOb4szwpAKx6oOnO3c",
+      authDomain: "cloth-exchange-ea1a9.firebaseapp.com",
+      databaseURL: "https://cloth-exchange-ea1a9-default-rtdb.firebaseio.com",
+      projectId: "cloth-exchange-ea1a9",
+      storageBucket: "cloth-exchange-ea1a9.appspot.com",
+      messagingSenderId: "1065263276976",
+      appId: "1:1065263276976:web:b00641fef1f7aa186d6c75",
+      measurementId: "G-PSLDEDXCK1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("signupForm");
+      const tick = document.getElementById("tick");
+
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const name = form.querySelector("input[type='text']").value;
+        const email = form.querySelector("input[type='email']").value;
+        const password = form.querySelector("input[type='password']").value;
+
+        try {
+          await push(ref(db, 'admins'), {
+            name,
+            email,
+            password
+          });
+          tick.style.display = "block";
+          form.reset();
+        } catch (error) {
+          console.error("Admin signup error:", error);
+          alert("Signup failed ❌");
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="auth-form">
+    <h2>Admin Sign Up</h2>
+    <form id="signupForm">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Admin Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+    </form>
+    <div class="tick" id="tick">✅</div>
+  </div>
+</body>
+</html>
