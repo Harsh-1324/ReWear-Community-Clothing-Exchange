@@ -60,10 +60,10 @@
 
 --
 
-## 🚀 Tech Stack (Suggested)
-- Frontend: HTML/CSS/JS
-- Database: Firebase
-- Authentication:  Firebase Auth
+## 🚀 Tech Stack
+Bootstrap is a free, open-source CSS framework that helps you quickly design responsive and good-looking websites using pre-built components.
+Firebase is a Backend-as-a-Service (BaaS) platform by Google that helps you quickly build web and mobile apps without managing servers.
+node js:Node.js is a JavaScript runtime that lets you run JavaScript code on the server side, not just in the browser.
 
 
 ---
