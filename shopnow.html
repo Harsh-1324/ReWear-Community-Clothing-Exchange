@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Clothing Store – Points Based</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f3f6;
+      color: #333;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #172337;
+      font-size: 32px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .product-card {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background-color: #e0e0e0;
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .product-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .product-price {
+      color: #388e3c;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .product-rating {
+      color: #ffa500;
+      font-size: 14px;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 24px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      animation: fadeIn 0.3s ease;
+      position: relative;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .modal-content h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .add-btn {
+      background-color: #2874f0;
+      color: #fff;
+    }
+
+    .buy-btn {
+      background-color: #fb641b;
+      color: #fff;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      font-size: 20px;
+      background: #eee;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Shop Now</h1>
+
+  <div class="product-grid">
+    <div class="product-card" onclick="showModal('', 'Men\'s Denim Jacket', '4,500 pts', 'Classic slim-fit denim jacket with button closure.', 'Comfortable and stylish, fits perfectly.', '★★★★☆ (4.6)')">
+      <img src="download (1).jpg" alt="Denim Jacket">
+      <div class="product-info">
+        <div class="product-title">Men's Denim Jacket</div>
+        <div class="product-price">4,500 pts</div>
+        <div class="product-rating">★★★★☆ (4.6)</div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showModal('', 'Women\'s Kurti Set', '2,800 pts', 'Elegant cotton kurti with palazzo pants.', 'Light and breathable, great for summer.', '★★★★★ (4.9)')">
+      <img src="download (2).jpg" alt="Kurti Set">
+      <div class="product-info">
+        <div class="product-title">Women's Kurti Set</div>
+        <div class="product-price">2,800 pts</div>
+        <div class="product-rating">★★★★★ (4.9)</div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showModal('', 'Unisex Hooded Sweatshirt', '1,700 pts', 'Soft fleece hoodie with front pocket and drawstring.', 'Very cozy and warm. Value for points.', '★★★★☆ (4.4)')">
+      <img src="download (3).jpg" alt="Hooded Sweatshirt">
+      <div class="product-info">
+        <div class="product-title">Unisex Hooded Sweatshirt</div>
+        <div class="product-price">1,700 pts</div>
+        <div class="product-rating">★★★★☆ (4.4)</div>
+      </div>
+    </div>
+    <div class="product-card" onclick="showModal('', 'Unisex Hooded Sweatshirt', '1,700 pts', 'Soft fleece hoodie with front pocket and drawstring.', 'Very cozy and warm. Value for points.', '★★★★☆ (4.4)')">
+      <img src="download (3).jpg" alt="Hooded Sweatshirt">
+      <div class="product-info">
+        <div class="product-title">Unisex Hooded Sweatshirt</div>
+        <div class="product-price">1,700 pts</div>
+        <div class="product-rating">★★★★☆ (4.4)</div>
+      </div>
+    </div>
+    <div class="product-card" onclick="showModal('', 'Unisex Hooded Sweatshirt', '1,700 pts', 'Soft fleece hoodie with front pocket and drawstring.', 'Very cozy and warm. Value for points.', '★★★★☆ (4.4)')">
+      <img src="download (3).jpg" alt="Hooded Sweatshirt">
+      <div class="product-info">
+        <div class="product-title">Unisex Hooded Sweatshirt</div>
+        <div class="product-price">1,700 pts</div>
+        <div class="product-rating">★★★★☆ (4.4)</div>
+      </div>
+    </div>
+    <div class="product-card" onclick="showModal('', 'Unisex Hooded Sweatshirt', '1,700 pts', 'Soft fleece hoodie with front pocket and drawstring.', 'Very cozy and warm. Value for points.', '★★★★☆ (4.4)')">
+      <img src="download (3).jpg" alt="Hooded Sweatshirt">
+      <div class="product-info">
+        <div class="product-title">Unisex Hooded Sweatshirt</div>
+        <div class="product-price">1,700 pts</div>
+        <div class="product-rating">★★★★☆ (4.4)</div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="showModal('', 'Formal Blazer (Men)', '8,500 pts', 'Premium poly-viscose blend blazer with notch lapel.', 'Looks sharp and elegant.', '★★★★☆ (4.5)')">
+      <img src="tshirt.png" alt="Formal Blazer">
+      <div class="product-info">
+        <div class="product-title">Formal Blazer (Men)</div>
+        <div class="product-price">8,500 pts</div>
+        <div class="product-rating">★★★★☆ (4.5)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="productModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <img id="modalImage" src="" alt="Product Image">
+      <h2 id="modalTitle"></h2>
+      <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+      <p><strong>Description:</strong> <span id="modalDesc"></span></p>
+      <p><strong>Feedback:</strong> <span id="modalFeedback"></span></p>
+      <p><strong>Rating:</strong> <span id="modalRating"></span></p>
+      <div class="modal-buttons">
+        <button class="add-btn">Add to Cart</button>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showModal(image, title, price, description, feedback, rating) {
+      document.getElementById('modalImage').src = image;
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('modalDesc').textContent = description;
+      document.getElementById('modalFeedback').textContent = feedback;
+      document.getElementById('modalRating').textContent = rating;
+      document.getElementById('productModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

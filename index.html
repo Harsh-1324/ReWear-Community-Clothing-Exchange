@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container h1 {
+            color: #8c0d4f;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+
+        .search-bar {
+            width: 350px;
+            height: 25px;
+            padding: 10px;
+            margin: 30px;
+            font-size: 15px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            color: rgb(91, 14, 19);
+        }
+
+        .container {
+            /* background-color:#8c0d4f; */
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            border: 1px solid gray;
+        }
+
+        .icons img {
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .icons span {
+            display: flex;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 25px;
+            padding-bottom: 10px;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid red;
+            color: white;
+            background-color: #8c0d4f;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .sep {
+            height: 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #8c0d4f;
+        }
+
+        .tabs {
+            list-style: none;
+            display: flex;
+            /* Makes it horizontal */
+            padding: 0;
+            margin: 0;
+            background-color: #f5f5f5;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 20px;
+        }
+
+        .tab.active {
+            border-bottom: 3px solid #007BFF;
+            font-weight: bold;
+            font-size: 20px;
+            color: #007BFF;
+        }
+
+        .tab:hover {
+            color: #8c0d4f;
+        }
+
+
+        .product-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 16px;
+            padding: 10px;
+            white-space: nowrap;
+        }
+
+        /* Optional: fix image size */
+        .product-slider img {
+            width: 1000px;
+            height: 500px;
+            border-radius: 8px;
+        }
+
+        /* Custom WebKit scrollbar */
+        .product-slider::-webkit-scrollbar {
+            height: 8px;
+            display: none;
+        }
+
+        .product-slider::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .product-slider::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .product-slider::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+
+        .shop-now-btn {
+            position: fixed;
+            /* Makes it stay in place */
+            top: 50%;
+            /* Vertically center */
+            left: 0;
+            /* Align to left */
+            transform: translateY(-50%);
+            /* Perfect vertical centering */
+            padding: 12px 20px;
+            background-color: #8c0d4f;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            /* Rounded right corners */
+            cursor: pointer;
+            z-index: 1000;
+            /* Stay above other elements */
+            transition: background-color 0.3s;
+            font-size: 20px;
+        }
+
+        .shop-now-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .product-slider-2-wrapper {
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+        }
+
+        .product-slider-2 {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 20px;
+            padding: 10px;
+            scrollbar-width: none;
+
+        }
+
+        .product-slider-2::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide {
+            display: flex;
+            min-width: 600px;
+            height: 250px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-description {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+        .product-image {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .slider-nav button {
+            padding: 8px 16px;
+            font-size: 18px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .slider-nav button:hover {
+            background-color: #0056b3;
+        }
+
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        footer h3 {
+            margin-bottom: 10px;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer li {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        footer li img {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        footer .bottom-info {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            footer div[style*="display: flex"] {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            footer div[style*="text-align: right"] {
+                text-align: center !important;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="container">
+            <h1>Rewear</h1>
+            <div class="searchbar"></div>
+            <input type="text" placeholder="Search here..." class="search-bar">
+            <div class="icons">
+                <img src="user.svg" alt="user" width="25" id="userIcon">
+                <img src="whishlist.svg" alt="whishlist" width="25">
+                <img src="cart.svg" alt="shop" width="25">
+                <div class="butt" id="adminLoginBtn"> <span>Admin login</span></div>
+            </div>
+        </div>
+        <!-- /seprator -->
+        <div class="sep">
+        </div>
+        <!-- tabs -->
+        <div class="tabs">
+            <ul class="tabs">
+                <li class="tab">Home</li>
+                <li class="tab">About</li>
+                <li class="tab">Services</li>
+                <div class="dashboard" id="DSB">
+                    <li class="tab">Dashboard</li>
+                </div>
+
+                <div class="Itemlist" id="item-list">
+                    <ul>
+                        <li class="tab" id="itemTab">Item list</li>
+                    </ul>
+                </div>
+
+            </ul>
+        </div>
+
+
+        <div class="product-slider">
+            <img src="product1.jpg" alt="Product 1">
+            <img src="download (1).jpg" alt="Product 1">
+            <img src="download (2).jpg" alt="Product 1">
+            <img src="download (3).jpg" alt="Product 1">
+            <img src="denim tears.jpg" alt="Product 1">
+            <img src="happy-handsome-brutal-bearder-man-wearing-warm-red-winter-trendy-fleece-hoodie.jpg"
+                alt="Product 1">
+            <img src="lillka's Boy Jeans 06.jpg" alt="Product 1">
+
+            <button class="shop-now-btn">Shop Now</button>
+
+
+            <div class="sep">
+            </div>
+        </div>
+
+        <div class="product-slider-2-wrapper">
+            <div class="product-slider-2" id="slider2">
+
+                <div class="slide">
+                    <div class="product-description">
+                        <h3>Red tshirt</h3>
+                        This cotton t-shirt is crafted from soft, breathable fabric that ensures all-day comfort. Its
+                        classic fit and lightweight material make it perfect for casual everyday wear.</p>
+                    </div>
+                    <div class="product-image">
+                        <img src="tshirt.png" alt="Product 1">
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="product-description">
+                        <h3>Red tshirt</h3>
+                        <p>This cotton t-shirt is crafted from soft, breathable fabric that ensures all-day comfort. Its
+                            classic fit and lightweight material make it perfect for casual everyday wear.</p>
+                    </div>
+                    <div class="product-image">
+                        <img src="tshirt.png" alt="Product 2">
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="product-description">
+                        <h3>Red tshirt</h3>
+                        <p>This cotton t-shirt is crafted from soft, breathable fabric that ensures all-day comfort. Its
+                            classic fit and lightweight material make it perfect for casual everyday wear.</p>
+                    </div>
+                    <div class="product-image">
+                        <img src="tshirt.png" alt="Product 2">
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="product-description">
+                        <h3>Red tshirt</h3>
+                        <p>This cotton t-shirt is crafted from soft, breathable fabric that ensures all-day comfort. Its
+                            classic fit and lightweight material make it perfect for casual everyday wear.</p>
+                    </div>
+                    <div class="product-image">
+                        <img src="tshirt.png" alt="Product 2">
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            <div class="slider-nav">
+                <button onclick="scrollSlider('left')">←</button>
+                <button onclick="scrollSlider('right')">→</button>
+            </div>
+        </div>
+
+
+        <footer style="background-color: #2c3e50; color: white; padding: 30px 20px;">
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+
+                <div style="flex: 1; min-width: 250px;">
+                    <h3>Contact Us</h3>
+                    <ul style="margin-top: 10px; list-style: none; padding: 0;">
+                        <li><img src="fb.svg" alt="Facebook"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">Facebook</li>
+                        <li><img src="youtube.svg" alt="YouTube"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">YouTube</li>
+                        <li><img src="insta.svg" alt="Instagram"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">Instagram</li>
+                    </ul>
+                </div>
+
+
+                <div style="flex: 1; min-width: 250px; text-align: right;">
+                    <ul style="list-style: none; padding: 0;">
+                        <li><img src="email.svg" alt="Email"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">support@example.com</li>
+                        <li><img src="location.svg" alt="Location"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">123 Main Street, City,
+                            Country</li>
+                        <li><img src="phone.svg" alt="Contact"
+                                style="width: 16px; vertical-align: middle; margin-right: 8px;">+91-9876543210</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px; text-align: center; font-size: 14px;">
+                <p>&copy; 2025 Your Brand Name. All rights reserved.</p>
+                <p>Privacy Policy | Terms of Service | Return Policy</p>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+<script>
+    function scrollSlider(direction) {
+        const slider = document.getElementById('slider2');
+        const scrollAmount = 620;
+
+        if (direction === 'left') {
+            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+
+    const userIcon = document.getElementById("userIcon");
+    userIcon.addEventListener("click", () => {
+        document.body.classList.add("fade-out", "hide");
+        setTimeout(() => {
+            window.location.href = "authentication/login.html";
+        }, 500);
+    });
+
+
+    document.getElementById("adminLoginBtn").addEventListener("click", () => {
+        document.body.classList.add("fade-out");
+        setTimeout(() => {
+            window.location.href = "authentication/admin-login.html";
+        }, 500);
+    });
+
+
+    document.getElementById("DSB").addEventListener("click", function () {
+        window.location.href = "authentication/dashboard.html";
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const itemTab = document.getElementById("itemTab");
+        itemTab.addEventListener("click", (event) => {
+            event.preventDefault();
+            window.location.href = "/item-details.html";
+        });
+    });
+
+    document.querySelector('.shop-now-btn').addEventListener('click', function () {
+        window.location.href = 'shopnow.html';
+    });
+
+</script>
+
+</html>

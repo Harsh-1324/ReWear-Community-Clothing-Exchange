@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ReWear - Community Clothing Exchange</title>
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+body {
+font-family: "Arial", sans-serif;
+line-height: 1.6;
+color: #333;
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+min-height: 100vh;
+}
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px;
+}
+/* Header */
+header {
+background: rgba(255, 255, 255, 0.95);
+backdrop-filter: blur(10px);
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+position: sticky;
+top: 0;
+z-index: 1000;
+}
+nav {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1rem 0;
+}
+.logo {
+font-size: 2rem;
+font-weight: bold;
+color: #667eea;
+text-decoration: none;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+.nav-links {
+display: flex;
+list-style: none;
+gap: 2rem;
+}
+.nav-links a {
+text-decoration: none;
+color: #333;
+font-weight: 500;
+transition: color 0.3s ease;
+}
+.nav-links a:hover {
+color: #667eea;
+}
+.auth-buttons {
+display: flex;
+gap: 1rem;
+}
+.btn {
+padding: 0.75rem 1.5rem;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+font-weight: 500;
+transition: all 0.3s ease;
+text-decoration: none;
+display: inline-block;
+text-align: center;
+}
+.btn-primary {
+background: linear-gradient(135deg, #667eea, #764ba2);
+color: white;
+}
+.btn-primary:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+.btn-secondary {
+background: transparent;
+color: #667eea;
+border: 2px solid #667eea;
+}
+.btn-secondary:hover {
+background: #667eea;
+color: white;
+}
+/* Main Content */
+.page {
+display: none;
+min-height: calc(100vh - 80px);
+}
+.page.active {
+display: block;
+}
+/* Landing Page */
+.hero {
+text-align: center;
+padding: 4rem 0;
+color: white;
+}
+.hero h1 {
+font-size: 3.5rem;
+margin-bottom: 1rem;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+.hero p {
+font-size: 1.2rem;
+margin-bottom: 2rem;
+opacity: 0.9;
+}
+.cta-buttons {
+display: flex;
+gap: 1rem;
+justify-content: center;
+flex-wrap: wrap;
+}
+.cta-buttons .btn {
+padding: 1rem 2rem;
+font-size: 1.1rem;
+}
+.features {
+background: rgba(255, 255, 255, 0.95);
+padding: 4rem 0;
+margin: 2rem 0;
+border-radius: 20px;
+}
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+}
+.feature-card {
+text-align: center;
+padding: 2rem;
+background: white;
+border-radius: 15px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease;
+}
+.feature-card:hover {
+transform: translateY(-5px);
+}
+.feature-card h3 {
+color: #667eea;
+margin-bottom: 1rem;
+}
+.carousel {
+background: rgba(255, 255, 255, 0.95);
+padding: 3rem 0;
+border-radius: 20px;
+margin: 2rem 0;
+}
+.carousel h2 {
+text-align: center;
+margin-bottom: 2rem;
+color: #333;
+}
+.carousel-container {
+display: flex;
+overflow-x: auto;
+gap: 1rem;
+padding: 1rem;
+}
+.item-card {
+min-width: 250px;
+background: white;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease;
+}
+.item-card:hover {
+transform: scale(1.05);
+}
+.item-card img {
+width: 100%;
+height: 200px;
+object-fit: cover;
+}
+.item-card-content {
+padding: 1rem;
+}
+.item-card h3 {
+color: #333;
+margin-bottom: 0.5rem;
+}
+.item-card p {
+color: #666;
+font-size: 0.9rem;
+}
+.points-badge {
+background: #667eea;
+color: white;
+padding: 0.25rem 0.75rem;
+border-radius: 20px;
+font-size: 0.8rem;
+font-weight: bold;
+}
+/* Auth Forms */
+.auth-form {
+background: rgba(255, 255, 255, 0.95);
+padding: 3rem;
+border-radius: 20px;
+max-width: 400px;
+margin: 4rem auto;
+box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+.auth-form h2 {
+text-align: center;
+margin-bottom: 2rem;
+color: #333;
+}
+.form-group {
+margin-bottom: 1rem;
+}
+.form-group label {
+display: block;
+margin-bottom: 0.5rem;
+color: #333;
+font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+width: 100%;
+padding: 0.75rem;
+border: 2px solid #e0e0e0;
+border-radius: 10px;
+font-size: 1rem;
+transition: border-color 0.3s ease;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+outline: none;
+border-color: #667eea;
+}
+.form-group textarea {
+resize: vertical;
+min-height: 100px;
+}
+/* Dashboard */
+.dashboard {
+background: rgba(255, 255, 255, 0.95);
+padding: 2rem;
+border-radius: 20px;
+margin: 2rem 0;
+}
+.dashboard-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 2rem;
+}
+.user-info {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+.user-avatar {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background: linear-gradient(135deg, #667eea, #764ba2);
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+font-size: 1.5rem;
+font-weight: bold;
+}
+.dashboard-stats {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1rem;
+margin-bottom: 2rem;
+}
+.stat-card {
+background: white;
+padding: 1.5rem;
+border-radius: 15px;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+.stat-card h3 {
+color: #667eea;
+font-size: 2rem;
+margin-bottom: 0.5rem;
+}
+.stat-card p {
+color: #666;
+}
+.items-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+gap: 1rem;
+margin-top: 2rem;
+}
+/* Item Detail */
+.item-detail {
+background: rgba(255, 255, 255, 0.95);
+padding: 2rem;
+border-radius: 20px;
+margin: 2rem 0;
+}
+.item-detail-content {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+}
+.item-gallery {
+background: white;
+border-radius: 15px;
+overflow: hidden;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.item-gallery img {
+width: 100%;
+height: 400px;
+object-fit: cover;
+}
+.item-info {
+padding: 1rem;
+}
+.item-info h1 {
+color: #333;
+margin-bottom: 1rem;
+}
+.item-meta {
+display: flex;
+flex-wrap: wrap;
+gap: 0.5rem;
+margin-bottom: 1rem;
+}
+.meta-tag {
+background: #f0f0f0;
+padding: 0.25rem 0.75rem;
+border-radius: 20px;
+font-size: 0.8rem;
+color: #666;
+}
+.uploader-info {
+background: white;
+padding: 1rem;
+border-radius: 15px;
+margin: 1rem 0;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.item-actions {
+display: flex;
+gap: 1rem;
+margin-top: 1rem;
+}
+/* Admin Panel */
+.admin-panel {
+background: rgba(255, 255, 255, 0.95);
+padding: 2rem;
+border-radius: 20px;
+margin: 2rem 0;
+}
+.admin-actions {
+display: flex;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+.pending-items {
+background: white;
+border-radius: 15px;
+padding: 1.5rem;
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+.pending-item {
+display: flex;
+align-items: center;
+gap: 1rem;
+padding: 1rem;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+margin-bottom: 1rem;
+}
+.pending-item img {
+width: 80px;
+height: 80px;
+object-fit: cover;
+border-radius: 10px;
+}
+.pending-item-info {
+flex: 1;
+}
+.pending-item-actions {
+display: flex;
+gap: 0.5rem;
+}
+.btn-approve {
+background: #28a745;
+color: white;
+}
+.btn-reject {
+background: #dc3545;
+color: white;
+}
+/* Responsive */
+@media (max-width: 768px) {
+.nav-links {
+display: none;
+}
+.hero h1 {
+font-size: 2.5rem;
+}
+.item-detail-content {
+grid-template-columns: 1fr;
+}
+.cta-buttons {
+flex-direction: column;
+align-items: center;
+}
+.dashboard-header {
+flex-direction: column;
+gap: 1rem;
+}
+}
+/* Animations */
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.page.active {
+animation: fadeIn 0.5s ease-in-out;
+}
+/* Utility classes */
+.hidden {
+display: none !important;
+}
+.text-center {
+text-align: center;
+}
+.mt-2 {
+margin-top: 2rem;
+}
+.mb-2 {
+margin-bottom: 2rem;
+}
+.error-message {
+background: #f8d7da;
+color: #721c24;
+padding: 0.75rem;
+border-radius: 10px;
+margin-bottom: 1rem;
+}
+.success-message {
+background: #d4edda;
+color: #155724;
+padding: 0.75rem;
+border-radius: 10px;
+margin-bottom: 1rem;
+}
+.file-input-wrapper {
+position: relative;
+overflow: hidden;
+display: inline-block;
+background: #667eea;
+color: white;
+padding: 0.75rem 1.5rem;
+border-radius: 10px;
+cursor: pointer;
+transition: background 0.3s ease;
+}
+.file-input-wrapper:hover {
+background: #5a6fd8;
+}
+.file-input-wrapper input[type="file"] {
+position: absolute;
+left: -9999px;
+}
+.image-preview {
+display: flex;
+flex-wrap: wrap;
+gap: 1rem;
+margin-top: 1rem;
+}
+.image-preview img {
+width: 100px;
+height: 100px;
+object-fit: cover;
+border-radius: 10px;
+border: 2px solid #e0e0e0;
+}
+</style>
+</head>
+<body>
+<header>
+<nav class="container">
+<a href="#" class="logo" onclick="showPage('landing')"> ReWear</a>
+<ul class="nav-links">
+<li><a href="#" onclick="showPage('browse')">Browse</a></li>
+<li>
+<a
+href="#"
+onclick="showPage('dashboard')"
+id="dashboardLink"
+class="hidden"
+>Dashboard</a
+>
+</li>
+<li>
+<a
+href="#"
+onclick="showPage('add-item')"
+id="addItemLink"
+class="hidden"
+>Add Item</a
+>
+</li>
+<li>
+<a
+href="#"
+onclick="showPage('admin')"
+id="adminLink"
+class="hidden"
+>Admin</a
+>
+</li>
+</ul>
+<div class="auth-buttons">
+<a
+href="#"
+class="btn btn-secondary"
+onclick="showPage('login')"
+id="loginBtn"
+>Login</a
+>
+<a
+href="#"
+class="btn btn-primary"
+onclick="showPage('signup')"
+id="signupBtn"
+>Sign Up</a
+>
+<a
+href="#"
+class="btn btn-secondary"
+onclick="logout()"
+id="logoutBtn"
+class="hidden"
+>Logout</a
+>
+</div>
+</nav>
+</header>
+<main class="container">
+<!-- Landing Page -->
+<div id="landing" class="page active">
+<section class="hero">
+<h1>Welcome to ReWear</h1>
+<p>
+The sustainable fashion revolution starts here. Exchange, share, and
+discover amazing clothing while reducing waste.
+</p>
+<div class="cta-buttons">
+<a href="#" class="btn btn-primary" onclick="showPage('browse')"
+>Browse Items</a
+>
+<a href="#" class="btn btn-secondary" onclick="showPage('add-item')"
+>List an Item</a
+>
+</div>
+</section>
+<section class="features">
+<div class="features-grid">
+<div class="feature-card">
+<h3> Easy Swapping</h3>
+<p>
+Trade your unused clothes directly with other community members
+through our intuitive swap system.
+</p>
+</div>
+<div class="feature-card">
+<h3> Points System</h3>
+<p>
+Earn points for every item you contribute and redeem them for
+pieces you love.
+</p>
+</div>
+<div class="feature-card">
+<h3> Sustainable Fashion</h3>
+<p>
+Reduce textile waste and make environmentally conscious fashion
+choices.
+</p>
+</div>
+</div>
+</section>
+<section class="carousel">
+<h2>Featured Items</h2>
+<div class="carousel-container" id="featuredItems">
+<!-- Featured items will be populated here -->
+</div>
+</section>
+</div>
+<!-- Login Page -->
+<div id="login" class="page">
+<form class="auth-form" onsubmit="handleLogin(event)">
+<h2>Login to ReWear</h2>
+<div id="loginError" class="error-message hidden"></div>
+<div class="form-group">
+<label for="loginEmail">Email</label>
+<input type="email" id="loginEmail" required />
+</div>
+<div class="form-group">
+<label for="loginPassword">Password</label>
+<input type="password" id="loginPassword" required />
+</div>
+<button type="submit" class="btn btn-primary" style="width: 100%">
+Login
+</button>
+<p class="text-center mt-2">
+Don't have an account?
+<a href="#" onclick="showPage('signup')">Sign up</a>
+</p>
+</form>
+</div>
+<!-- Signup Page -->
+<div id="signup" class="page">
+<form class="auth-form" onsubmit="handleSignup(event)">
+<h2>Join ReWear</h2>
+<div id="signupError" class="error-message hidden"></div>
+<div class="form-group">
+<label for="signupName">Full Name</label>
+<input type="text" id="signupName" required />
+</div>
+<div class="form-group">
+<label for="signupEmail">Email</label>
+<input type="email" id="signupEmail" required />
+</div>
+<div class="form-group">
+<label for="signupPassword">Password</label>
+<input type="password" id="signupPassword" required />
+</div>
+<div class="form-group">
+<label for="signupConfirmPassword">Confirm Password</label>
+<input type="password" id="signupConfirmPassword" required />
+</div>
+<button type="submit" class="btn btn-primary" style="width: 100%">
+Sign Up
+</button>
+<p class="text-center mt-2">
+Already have an account?
+<a href="#" onclick="showPage('login')">Login</a>
+</p>
+</form>
+</div>
+<!-- Dashboard -->
+<div id="dashboard" class="page">
+<div class="dashboard">
+<div class="dashboard-header">
+<div class="user-info">
+<div class="user-avatar" id="userAvatar"></div>
+<div>
+<h2 id="userName"></h2>
+<p id="userEmail"></p>
+</div>
+</div>
+<div class="points-badge" id="userPoints">0 Points</div>
+</div>
+<div class="dashboard-stats">
+<div class="stat-card">
+<h3 id="itemsListed">0</h3>
+<p>Items Listed</p>
+</div>
+<div class="stat-card">
+<h3 id="activeSwaps">0</h3>
+<p>Active Swaps</p>
+</div>
+<div class="stat-card">
+<h3 id="completedSwaps">0</h3>
+<p>Completed Swaps</p>
+</div>
+</div>
+<div>
+<h3>Your Items</h3>
+<div class="items-grid" id="userItems">
+<!-- User items will be populated here -->
+</div>
+</div>
+</div>
+</div>
+<!-- Browse Items -->
+<div id="browse" class="page">
+<div class="dashboard">
+<h2>Browse Items</h2>
+<div class="items-grid" id="browseItems">
+<!-- Browse items will be populated here -->
+</div>
+</div>
+</div>
+<!-- Add Item -->
+<div id="add-item" class="page">
+<div class="dashboard">
+<h2>Add New Item</h2>
+<form onsubmit="handleAddItem(event)">
+<div id="addItemError" class="error-message hidden"></div>
+<div id="addItemSuccess" class="success-message hidden"></div>
+<div class="form-group">
+<label>Item Images</label>
+<div class="file-input-wrapper">
+<input
+type="file"
+id="itemImages"
+multiple
+accept="image/*"
+onchange="previewImages(event)" />
+Choose Images
+</div>
+<div class="image-preview" id="imagePreview"></div>
+</div>
+<div class="form-group">
+<label for="itemTitle">Title</label>
+<input type="text" id="itemTitle" required />
+</div>
+<div class="form-group">
+<label for="itemDescription">Description</label>
+<textarea id="itemDescription" required></textarea>
+</div>
+<div class="form-group">
+<label for="itemCategory">Category</label>
+<select id="itemCategory" required>
+<option value="">Select Category</option>
+<option value="tops">Tops</option>
+<option value="bottoms">Bottoms</option>
+<option value="dresses">Dresses</option>
+<option value="outerwear">Outerwear</option>
+<option value="shoes">Shoes</option>
+<option value="accessories">Accessories</option>
+</select>
+</div>
+<div class="form-group">
+<label for="itemType">Type</label>
+<input
+type="text"
+id="itemType"
+placeholder="e.g., T-shirt, Jeans, Sneakers" />
+</div>
+<div class="form-group">
+<label for="itemSize">Size</label>
+<select id="itemSize" required>
+<option value="">Select Size</option>
+<option value="XS">XS</option>
+<option value="S">S</option>
+<option value="M">M</option>
+<option value="L">L</option>
+<option value="XL">XL</option>
+<option value="XXL">XXL</option>
+</select>
+</div>
+<div class="form-group">
+<label for="itemCondition">Condition</label>
+<select id="itemCondition" required>
+<option value="">Select Condition</option>
+<option value="new">New with tags</option>
+<option value="excellent">Excellent</option>
+<option value="good">Good</option>
+<option value="fair">Fair</option>
+</select>
+</div>
+<div class="form-group">
+<label for="itemTags">Tags (comma-separated)</label>
+<input
+type="text"
+id="itemTags"
+placeholder="vintage, casual, summer" />
+</div>
+<button type="submit" class="btn btn-primary" style="width: 100%">
+List Item
+</button>
+</form>
+</div>
+</div>
+<!-- Item Detail -->
+<div id="item-detail" class="page">
+<div class="item-detail">
+<div class="item-detail-content">
+<div class="item-gallery">
+<img id="itemDetailImage" src="" alt="Item Image" />
+</div>
+<div class="item-info">
+<h1 id="itemDetailTitle"></h1>
+<div class="item-meta" id="itemDetailMeta"></div>
+<p id="itemDetailDescription"></p>
+<div class="uploader-info">
+<h3>Listed by</h3>
+<p id="itemDetailUploader"></p>
+</div>
+<div class="item-actions">
+<button class="btn btn-primary" onclick="requestSwap()">
+Request Swap
+</button>
+<button class="btn btn-secondary" onclick="redeemWithPoints()">
+Redeem (50 Points)
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Admin Panel -->
+<div id="admin" class="page">
+<div class="admin-panel">
+<h2>Admin Panel</h2>
+<div class="admin-actions">
+<button class="btn btn-primary" onclick="refreshPendingItems()">
+Refresh Pending Items
+</button>
+</div>
+<div class="pending-items">
+<h3>Pending Approvals</h3>
+<div id="pendingItemsList">
+<!-- Pending items will be populated here -->
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+// Global state
+let currentUser = null;
+let users = [];
+let items = [];
+let pendingItems = [];
+let swaps = [];
+// Initialize app
+document.addEventListener("DOMContentLoaded", function () {
+loadData();
+populateFeaturedItems();
+checkAuthState();
+});
+// Data management
+function loadData() {
+// Load users
+const savedUsers = window.localStorage?.getItem("rewear_users");
+if (savedUsers) {
+users = JSON.parse(savedUsers);
+}
+// Load items
+const savedItems = window.localStorage?.getItem("rewear_items");
+if (savedItems) {
+items = JSON.parse(savedItems);
+}
+// Load pending items
+const savedPendingItems = window.localStorage?.getItem(
+"rewear_pending_items"
+);
+if (savedPendingItems) {
+pendingItems = JSON.parse(savedPendingItems);
+}
+// Load current user
+const savedCurrentUser = window.localStorage?.getItem(
+"rewear_current_user"
+);
+if (savedCurrentUser) {
+currentUser = JSON.parse(savedCurrentUser);
+}
+// Add some sample data if empty
+if (items.length === 0) {
+addSampleData();
+}
+}
+function saveData() {
+try {
+window.localStorage?.setItem("rewear_users", JSON.stringify(users));
+window.localStorage?.setItem("rewear_items", JSON.stringify(items));
+window.localStorage?.setItem(
+"rewear_pending_items",
+JSON.stringify(pendingItems)
+);
+window.localStorage?.setItem(
+"rewear_current_user",
+JSON.stringify(currentUser)
+);
+} catch (e) {
+console.log("Local storage not available, using session storage");
+}
+}
+function addSampleData() {
+const sampleItems = [
+{
+id: 1,
+title: "Vintage Denim Jacket",
+description: "Classic vintage denim jacket in excellent condition",
+category: "outerwear",
+type: "Jacket",
+size: "M",
+condition: "excellent",
+tags: ["vintage", "denim", "classic"],
+images: [
+"https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400",
+],
+uploader: "demo@example.com",
+uploaderName: "Demo User",
+points: 50,
+status: "available",
+createdAt: new Date().toISOString(),
+},
+{
+id: 2,
+title: "Summer Floral Dress",
+description: "Beautiful floral dress perfect for summer occasions",
+category: "dresses",
+type: "Dress",
+size: "S",
+condition: "new",
+tags: ["floral", "summer", "elegant"],
+images: [
+"https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+],
+uploader: "demo@example.com",
+uploaderName: "Demo User",
+points: 75,
+status: "available",
+createdAt: new Date().toISOString(),
+},
+{
+id: 3,
+title: "Leather Boots",
+description: "Genuine leather boots, barely worn, great for winter",
+category: "shoes",
+type: "Boots",
+size: "L",
+condition: "excellent",
+tags: ["leather", "winter", "boots"],
+images: [
+"https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400",
+],
+uploader: "demo@example.com",
+uploaderName: "Demo User",
+points: 60,
+status: "available",
+createdAt: new Date().toISOString(),
+},
+];
+items = sampleItems;
+saveData();
+}
+// Page navigation
+function showPage(pageId) {
+// Hide all pages
+document.querySelectorAll(".page").forEach((page) => {
+page.classList.remove("active");
+});
+// Show selected page
+document.getElementById(pageId).classList.add("active");
+// Update content based on page
+if (pageId === "dashboard") {
+if (!currentUser) {
+showPage("login");
+return;
+}
+updateDashboard();
+} else if (pageId === "browse") {
+updateBrowseItems();
+} else if (pageId === "add-item") {
+if (!currentUser) {
+showPage("login");
+return;
+}
+} else if (pageId === "admin") {
+if (!currentUser || currentUser.role !== "admin") {
+showPage("login");
+return;
+}
+updateAdminPanel();
+}
+}
+// Authentication
+function checkAuthState() {
+if (currentUser) {
+updateUIForLoggedInUser();
+} else {
+updateUIForLoggedOutUser();
+}
+}
+function updateUIForLoggedInUser() {
+document.getElementById("loginBtn").classList.add("hidden");
+document.getElementById("signupBtn").classList.add("hidden");
+document.getElementById("logoutBtn").classList.remove("hidden");
+document.getElementById("dashboardLink").classList.remove("hidden");
+document.getElementById("addItemLink").classList.remove("hidden");
+if (currentUser.role === "admin") {
+document.getElementById("adminLink").classList.remove("hidden");
+}
+}
+function updateUIForLoggedOutUser() {
+document.getElementById("loginBtn").classList.remove("hidden");
+document.getElementById("signupBtn").classList.remove("hidden");
+document.getElementById("logoutBtn").classList.add("hidden");
+document.getElementById("dashboardLink").classList.add("hidden");
+document.getElementById("addItemLink").classList.add("hidden");
+document.getElementById("adminLink").classList.add("hidden");
+}
+function handleLogin(event) {
+event.preventDefault();
+const email = document.getElementById("loginEmail").value;
+const password = document.getElementById("loginPassword").value;
+// Demo login - in real app, this would validate against backend
+if (email === "admin@rewear.com" && password === "admin123") {
+currentUser = {
+id: "admin",
+name: "Admin User",
+email: email,
+role: "admin",
+points: 1000,
+joinDate: new Date().toISOString(),
+};
+} else {
+// Check if user exists
+let user = users.find((u) => u.email === email);
+if (!user) {
+// Create demo user
+user = {
+id: Date.now().toString(),
+name: "Demo User",
+email: email,
+role: "user",
+points: 100,
+joinDate: new Date().toISOString(),
+};
+users.push(user);
+}
+currentUser = user;
+}
+saveData();
+updateUIForLoggedInUser();
+showPage("dashboard");
+}
+function handleSignup(event) {
+event.preventDefault();
+const name = document.getElementById("signupName").value;
+const email = document.getElementById("signupEmail").value;
+const password = document.getElementById("signupPassword").value;
+const confirmPassword = document.getElementById(
+"signupConfirmPassword"
+).value;
+if (password !== confirmPassword) {
+showError("signupError", "Passwords do not match");
+return;
+}
+// Check if user already exists
+if (users.find((u) => u.email === email)) {
+showError("signupError", "User already exists");
+return;
+}
+// Create new user
+const user = {
+id: Date.now().toString(),
+name: name,
+email: email,
+role: "user",
+points: 100, // Welcome bonus
+joinDate: new Date().toISOString(),
+};
+users.push(user);
+currentUser = user;
+saveData();
+updateUIForLoggedInUser();
+showPage("dashboard");
+}
+function logout() {
+currentUser = null;
+saveData();
+updateUIForLoggedOutUser();
+showPage("landing");
+}
+function showError(elementId, message) {
+const errorElement = document.getElementById(elementId);
+errorElement.textContent = message;
+errorElement.classList.remove("hidden");
+setTimeout(() => {
+errorElement.classList.add("hidden");
+}, 5000);
+}
+function showSuccess(elementId, message) {
+const successElement = document.getElementById(elementId);
+successElement.textContent = message;
+successElement.classList.remove("hidden");
+setTimeout(() => {
+successElement.classList.add("hidden");
+}, 5000);
+}
+// Dashboard
+function updateDashboard() {
+if (!currentUser) return;
+document.getElementById("userName").textContent = currentUser.name;
+document.getElementById("userEmail").textContent = currentUser.email;
+document.getElementById(
+"userPoints"
+).textContent = `${currentUser.points} Points`;
+document.getElementById("userAvatar").textContent = currentUser.name
+.charAt(0)
+.toUpperCase();
+// Update stats
+const userItems = items.filter(
+(item) => item.uploader === currentUser.email
+);
+document.getElementById("itemsListed").textContent = userItems.length;
+document.getElementById("activeSwaps").textContent = "0"; // Would be calculated from
+swaps
+document.getElementById("completedSwaps").textContent = "0"; // Would be calculated
+from swaps
+// Update user items
+const userItemsContainer = document.getElementById("userItems");
+userItemsContainer.innerHTML = userItems
+.map((item) => createItemCard(item))
+.join("");
+}
+// Browse items
+function updateBrowseItems() {
+const browseContainer = document.getElementById("browseItems");
+const availableItems = items.filter(
+(item) => item.status === "available"
+);
+browseContainer.innerHTML = availableItems
+.map((item) => createItemCard(item, true))
+.join("");
+}
+function createItemCard(item, clickable = false) {
+const clickHandler = clickable
+? `onclick="showItemDetail(${item.id})"`
+: "";
+const cursorStyle = clickable ? "cursor: pointer;" : "";
+return `
+<div class="item-card" ${clickHandler} style="${cursorStyle}">
+<img src="${item.images[0]}" alt="${item.title}">
+<div class="item-card-content">
+<h3>${item.title}</h3>
+<p>${item.description.substring(0, 100)}...</p>
+<div style="display: flex; justify-content: space-between; align-items: center;
+margin-top: 1rem;">
+<span class="points-badge">${
+item.points
+} Points</span>
+<span class="meta-tag">${item.size} • ${
+item.condition
+}</span>
+</div>
+</div>
+</div>
+`;
+}
+// Item detail
+function showItemDetail(itemId) {
+const item = items.find((i) => i.id === itemId);
+if (!item) return;
+document.getElementById("itemDetailImage").src = item.images[0];
+document.getElementById("itemDetailTitle").textContent = item.title;
+document.getElementById("itemDetailDescription").textContent =
+item.description;
+document.getElementById("itemDetailUploader").textContent =
+item.uploaderName;
+// Update meta tags
+const metaContainer = document.getElementById("itemDetailMeta");
+metaContainer.innerHTML = `
+<span class="meta-tag">${item.category}</span>
+<span class="meta-tag">${item.size}</span>
+<span class="meta-tag">${item.condition}</span>
+<span class="points-badge">${item.points} Points</span>
+`;
+showPage("item-detail");
+}
+function requestSwap() {
+if (!currentUser) {
+showPage("login");
+return;
+}
+alert("Swap request sent! The item owner will be notified.");
+}
+function redeemWithPoints() {
+if (!currentUser) {
+showPage("login");
+return;
+}
+if (currentUser.points < 50) {
+alert(
+"Not enough points! You need at least 50 points to redeem this item."
+);
+return;
+}
+currentUser.points -= 50;
+saveData();
+alert("Item redeemed successfully! Check your dashboard for details.");
+showPage("dashboard");
+}
+// Add item
+function previewImages(event) {
+const files = event.target.files;
+const previewContainer = document.getElementById("imagePreview");
+previewContainer.innerHTML = "";
+for (let i = 0; i < files.length && i < 5; i++) {
+const file = files[i];
+const reader = new FileReader();
+reader.onload = function (e) {
+const img = document.createElement("img");
+img.src = e.target.result;
+previewContainer.appendChild(img);
+};
+reader.readAsDataURL(file);
+}
+}
+function handleAddItem(event) {
+event.preventDefault();
+if (!currentUser) {
+showPage("login");
+return;
+}
+const title = document.getElementById("itemTitle").value;
+const description = document.getElementById("itemDescription").value;
+const category = document.getElementById("itemCategory").value;
+const type = document.getElementById("itemType").value;
+const size = document.getElementById("itemSize").value;
+const condition = document.getElementById("itemCondition").value;
+const tags = document
+.getElementById("itemTags")
+.value.split(",")
+.map((tag) => tag.trim());
+const imageFiles = document.getElementById("itemImages").files;
+if (imageFiles.length === 0) {
+showError("addItemError", "Please add at least one image");
+return;
+}
+// Create new item (in real app, images would be uploaded to server)
+const newItem = {
+id: Date.now(),
+title,
+description,
+category,
+type,
+size,
+condition,
+tags,
+images: [
+"https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400",
+], // Demo image
+uploader: currentUser.email,
+uploaderName: currentUser.name,
+points: calculatePoints(condition),
+status: "pending",
+createdAt: new Date().toISOString(),
+};
+pendingItems.push(newItem);
+// Award points to user for listing
+currentUser.points += 25;
+saveData();
+showSuccess(
+"addItemSuccess",
+"Item submitted for review! You earned 25 points."
+);
+// Reset form
+document.querySelector("#add-item form").reset();
+document.getElementById("imagePreview").innerHTML = "";
+}
+function calculatePoints(condition) {
+const pointsMap = {
+new: 100,
+excellent: 75,
+good: 50,
+fair: 25,
+};
+return pointsMap[condition] || 50;
+}
+// Admin panel
+function updateAdminPanel() {
+const pendingContainer = document.getElementById("pendingItemsList");
+if (pendingItems.length === 0) {
+pendingContainer.innerHTML = "<p>No pending items to review.</p>";
+return;
+}
+pendingContainer.innerHTML = pendingItems
+.map(
+(item) => `
+<div class="pending-item">
+<img src="${item.images[0]}" alt="${item.title}">
+<div class="pending-item-info">
+<h4>${item.title}</h4>
+<p>${item.description.substring(0, 100)}...</p>
+<small>By: ${item.uploaderName} • ${item.category} • ${
+item.size
+}</small>
+</div>
+<div class="pending-item-actions">
+<button class="btn btn-approve" onclick="approveItem(${
+item.id
+})">Approve</button>
+<button class="btn btn-reject" onclick="rejectItem(${
+item.id
+})">Reject</button>
+</div>
+</div>
+`
+)
+.join("");
+}
+function approveItem(itemId) {
+const itemIndex = pendingItems.findIndex((item) => item.id === itemId);
+if (itemIndex === -1) return;
+const item = pendingItems[itemIndex];
+item.status = "available";
+items.push(item);
+pendingItems.splice(itemIndex, 1);
+saveData();
+updateAdminPanel();
+alert("Item approved successfully!");
+}
+function rejectItem(itemId) {
+const itemIndex = pendingItems.findIndex((item) => item.id === itemId);
+if (itemIndex === -1) return;
+pendingItems.splice(itemIndex, 1);
+saveData();
+updateAdminPanel();
+alert("Item rejected.");
+}
+function refreshPendingItems() {
+updateAdminPanel();
+}
+// Featured items
+function populateFeaturedItems() {
+const featuredContainer = document.getElementById("featuredItems");
+const featuredItems = items
+.filter((item) => item.status === "available")
+.slice(0, 6);
+featuredContainer.innerHTML = featuredItems
+.map(
+(item) => `
+<div class="item-card" onclick="showItemDetail(${
+item.id
+})" style="cursor: pointer;">
+<img src="${item.images[0]}" alt="${item.title}">
+<div class="item-card-content">
+<h3>${item.title}</h3>
+<p>${item.description.substring(0, 80)}...</p>
+<div style="display: flex; justify-content: space-between; align-items: center;
+margin-top: 1rem;">
+<span class="points-badge">${
+item.points
+} Points</span>
+<span class="meta-tag">${item.size}</span>
+</div>
+</div>
+</div>
+`
+)
+.join("");
+}
+// Utility functions
+function generateId() {
+return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+}
+function formatDate(dateString) {
+return new Date(dateString).toLocaleDateString();
+}
+// Initialize carousel scroll
+function initCarousel() {
+const carousel = document.querySelector(".carousel-container");
+if (carousel) {
+carousel.style.scrollBehavior = "smooth";
+}
+}
+// Call init functions
+initCarousel();
+</script>
+</body>
+</html>
