@@ -3,7 +3,7 @@
 
 
 ## 👥 Team Info
-- **Team Name:** CODE SMASHERS 
+- **Team Name:** Team 1213 (CODE SMASHERS) 
 - **Harsh GUPTA:** :harshrg.comp_ioe@bkc.met.edu
 - **Datta Jadhav:** :dattaj302@gmail.com
 - **Digambar Nerkar:** :nerkardigambar8@gmail.com
