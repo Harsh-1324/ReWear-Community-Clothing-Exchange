@@ -1,137 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
-    .header {
-      background-color:  #8c0d4f;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    .dashboard {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    .dashboard h2 {
-      margin-top: 0;
-      color: #007bff;
-    }
-    .user-info, .user-wishlist, .user-points {
-      background: #f9f9f9;
-      padding: 15px;
-      border-left: 5px solid   #8c0d4f;
-      margin-bottom: 20px;
-    }
-    .logout-btn {
-      background-color: #dc3545;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    ul {
-      padding-left: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ReWear</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+        }
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #9F376F;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+        }
+        .nav-links a:hover { color: #9F376F; }
+        .user-greeting { color: #9F376F; font-weight: 500; }
+        .btn-logout {
+            background: #cd306f;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        .welcome-card {
+            background: linear-gradient(135deg, #9F376F 0%, #7a2a5a 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .buy-points-btn {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #9F376F;
+        }
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+        }
+        .tab.active {
+            color: #9F376F;
+            border-bottom: 2px solid #9F376F;
+            margin-bottom: -2px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .item-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .item-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .item-info { padding: 1rem; }
+        .request-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .btn-approve {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-reject {
+            background: #cd306f;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        .btn-add {
+            background: #9F376F;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        .btn-edit {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            background: white;
+            border-radius: 12px;
+        }
+        .edit-profile-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #8c0d4f;
+        }
+        textarea { resize: vertical; min-height: 100px; }
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+        .alert {
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        footer {
+            background: #1a1a2e;
+            color: white;
+            padding: 60px 5% 30px;
+            margin-top: 3rem;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .footer-section a {
+            display: block;
+            color: #ccc;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: #9F376F;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.9rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .welcome-card { flex-direction: column; text-align: center; gap: 1rem; }
+            .tabs { overflow-x: auto; }
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Welcome to Your Dashboard</h1>
-  </div>
-  <div class="dashboard">
-    <h2>User Details</h2>
-    <div class="user-info">
-      <p><strong>Name:</strong> <span id="userName">Loading...</span></p>
-      <p><strong>Email:</strong> <span id="userEmail">Loading...</span></p>
+    <nav class="navbar">
+        <a href="index.html" class="logo">ReWear</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="items.html">Browse Items</a>
+            <a href="upload.html">Upload Item</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="buy-points.html">Buy Points</a>
+            <span id="userGreeting"></span>
+            <button onclick="logout()" class="btn-logout">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div id="alert" class="alert"></div>
+
+        <div class="welcome-card">
+            <div>
+                <h1>Welcome back, <span id="userName"></span>! 👋</h1>
+                <p>Manage your items, swaps, and profile</p>
+            </div>
+            <a href="buy-points.html" class="buy-points-btn">💰 Buy Points</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="pointsValue">0</div>
+                <div class="stat-label">Points</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="listedCount">0</div>
+                <div class="stat-label">Listed Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="incomingCount">0</div>
+                <div class="stat-label">Incoming</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="outgoingCount">0</div>
+                <div class="stat-label">Outgoing</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('my-items')">📦 My Items</button>
+            <button class="tab" onclick="showTab('incoming')">📥 Incoming Requests</button>
+            <button class="tab" onclick="showTab('outgoing')">📤 Outgoing Requests</button>
+            <button class="tab" onclick="showTab('edit-profile')">✏️ Edit Profile</button>
+        </div>
+
+        <div id="my-items" class="tab-content active">
+            <a href="upload.html" class="btn-add">+ Add New Item</a>
+            <div id="myItemsList"></div>
+        </div>
+
+        <div id="incoming" class="tab-content">
+            <div id="incomingList"></div>
+        </div>
+
+        <div id="outgoing" class="tab-content">
+            <div id="outgoingList"></div>
+        </div>
+
+        <div id="edit-profile" class="tab-content">
+            <div class="edit-profile-form">
+                <h2 style="margin-bottom: 20px; color: #9F376F;">Edit Profile</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" disabled style="background: #f0f0f0;">
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="editCity" placeholder="e.g., Mumbai, Delhi, Bangalore">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea id="editBio" placeholder="Tell us about yourself and your sustainable fashion journey..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Picture URL</label>
+                        <input type="text" id="editProfilePic" placeholder="https://example.com/your-photo.jpg">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-edit" onclick="cancelEdit()">Cancel</button>
+                        <button type="submit" class="buy-points-btn" style="background:#9F376F; color:white;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div class="user-points">
-      <h3>Exchange Points</h3>
-      <p><strong>Points:</strong> <span id="userPoints">Loading...</span></p>
-    </div>
+           <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ReWear</h4>
+                <p>Exchange clothes, reduce waste, and embrace sustainable fashion.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="index.html">Home</a>
+                <a href="items.html">Browse Items</a>
+                <a href="upload.html">Upload Item</a>
+                <a href="dashboard.html">My Dashboard</a>
+                <a href="buy-points.html">Buy Points</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="faq.html">FAQ & Contact</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 ReWear. All rights reserved.</p>
+        </div>
+    </footer>
 
-    <div class="user-wishlist">
-      <h3>Your Wishlist</h3>
-      <ul id="wishlist">
-        <li>Loading...</li>
-      </ul>
-    </div>
+    <script src="api.js"></script>
+    <script>
+        let currentUser = null;
 
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB7MEebkECpfc2yoDOb4szwpAKx6oOnO3c",
-      authDomain: "cloth-exchange-ea1a9.firebaseapp.com",
-      databaseURL: "https://cloth-exchange-ea1a9-default-rtdb.firebaseio.com",
-      projectId: "cloth-exchange-ea1a9",
-      storageBucket: "cloth-exchange-ea1a9.appspot.com",
-      messagingSenderId: "1065263276976",
-      appId: "1:1065263276976:web:b00641fef1f7aa186d6c75",
-      measurementId: "G-PSLDEDXCK1"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    const userEmail = sessionStorage.getItem("userEmail");
-
-    async function fetchUserData() {
-      try {
-        const snapshot = await get(child(ref(db), 'users'));
-        if (snapshot.exists()) {
-          const users = snapshot.val();
-          let user = null;
-
-          for (const key in users) {
-            if (users[key].email === userEmail) {
-              user = users[key];
-              break;
-            }
-          }
-
-          if (user) {
-            document.getElementById("userName").textContent = user.name || "-";
-            document.getElementById("userEmail").textContent = user.email;
-            document.getElementById("userPoints").textContent = user.points || 0;
-
-            const wishlist = user.wishlist || [];
-            const wishlistEl = document.getElementById("wishlist");
-            wishlistEl.innerHTML = wishlist.length > 0
-              ? wishlist.map(item => `<li>${item}</li>`).join('')
-              : '<li>No items in wishlist.</li>';
-          } else {
-            alert("User not found.");
-          }
+        if (!window.api.isLoggedIn()) {
+            window.location.href = "login.html";
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    }
 
-    fetchUserData();
+        currentUser = window.api.getUser();
+        document.getElementById("userName").innerText = currentUser.name;
+        document.getElementById("userGreeting").innerHTML = `Hi, ${currentUser.name}`;
+        document.getElementById("pointsValue").innerText = currentUser.points;
 
-    function logout() {
-      sessionStorage.clear();
-      window.location.href = "login.html";
-    }
-  </script>
+        function showAlert(msg, type = "success") {
+            const el = document.getElementById('alert');
+            el.className = `alert alert-${type}`;
+            el.textContent = msg;
+            el.style.display = "block";
+            setTimeout(() => el.style.display = "none", 3000);
+        }
+
+        function logout() {
+            window.api.logout();
+            window.location.href = "index.html";
+        }
+
+        async function loadProfile() {
+            try {
+                const res = await fetch("http://localhost:5000/api/profile", {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                });
+                const data = await res.json();
+                if (data.success && data.user) {
+                    document.getElementById("editName").value = data.user.name;
+                    document.getElementById("editEmail").value = data.user.email;
+                    document.getElementById("editCity").value = data.user.city || "";
+                    document.getElementById("editBio").value = data.user.bio || "";
+                    document.getElementById("editProfilePic").value = data.user.profile_pic || "";
+                }
+            } catch (error) {
+                console.error("Error loading profile:", error);
+            }
+        }
+
+        async function loadMyItems() {
+            const container = document.getElementById('myItemsList');
+            container.innerHTML = '<div class="empty-state">Loading your items...</div>';
+            const result = await window.api.getMyItems();
+            if (result.success && result.items && result.items.length > 0) {
+                document.getElementById('listedCount').innerText = result.items.length;
+                container.innerHTML = `
+                    <div class="items-grid">
+                        ${result.items.map(item => `
+                            <div class="item-card">
+                                <img src="${item.image_url || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400'}" alt="${item.title}">
+                                <div class="item-info">
+                                    <h4>${item.title}</h4>
+                                    <p>${item.category || 'Accessories'} | Size ${item.size || 'M'}</p>
+                                    <div class="stat-value" style="font-size:1.2rem">${item.points_value || 15} pts</div>
+                                    <p>Status: ${item.status}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                document.getElementById('listedCount').innerText = "0";
+                container.innerHTML = '<div class="empty-state">You haven\'t uploaded any items yet.<br><a href="upload.html" style="color:#8c0d4f;">Upload your first item →</a></div>';
+            }
+        }
+
+        async function loadIncomingRequests() {
+            const container = document.getElementById('incomingList');
+            container.innerHTML = '<div class="empty-state">Loading requests...</div>';
+            const result = await window.api.getIncomingRequests();
+            if (result.success && result.requests && result.requests.length > 0) {
+                document.getElementById('incomingCount').innerText = result.requests.length;
+                container.innerHTML = result.requests.map(req => `
+                    <div class="request-card">
+                        <div>
+                            <strong>${req.title}</strong><br>
+                            Requested by: ${req.requester_name}<br>
+                            <small>${new Date(req.created_at).toLocaleDateString()}</small>
+                        </div>
+                        <div>
+                            <button class="btn-approve" onclick="updateRequest(${req.id}, 'approve')">Approve</button>
+                            <button class="btn-reject" onclick="updateRequest(${req.id}, 'reject')">Reject</button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('incomingCount').innerText = "0";
+                container.innerHTML = '<div class="empty-state">No incoming requests.</div>';
+            }
+        }
+
+        async function loadOutgoingRequests() {
+            const container = document.getElementById('outgoingList');
+            container.innerHTML = '<div class="empty-state">Loading requests...</div>';
+            const result = await window.api.getOutgoingRequests();
+            if (result.success && result.requests && result.requests.length > 0) {
+                document.getElementById('outgoingCount').innerText = result.requests.length;
+                container.innerHTML = result.requests.map(req => `
+                    <div class="request-card">
+                        <div>
+                            <strong>${req.title}</strong><br>
+                            Owner: ${req.owner_name}<br>
+                            Status: <strong>${req.status}</strong><br>
+                            <small>Requested: ${new Date(req.created_at).toLocaleDateString()}</small>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('outgoingCount').innerText = "0";
+                container.innerHTML = '<div class="empty-state">No outgoing requests.</div>';
+            }
+        }
+
+        async function updateRequest(requestId, action) {
+            const result = await window.api.updateSwapRequest(requestId, action);
+            if (result.success) {
+                showAlert(result.message);
+                loadIncomingRequests();
+                loadOutgoingRequests();
+                const user = window.api.getUser();
+                if (user) document.getElementById('pointsValue').innerText = user.points;
+            } else {
+                showAlert(result.message, "error");
+            }
+        }
+
+        document.getElementById("profileForm").onsubmit = async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const res = await fetch("http://localhost:5000/api/profile", {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("editName").value,
+                    city: document.getElementById("editCity").value,
+                    bio: document.getElementById("editBio").value,
+                    profile_pic: document.getElementById("editProfilePic").value
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showAlert("Profile updated successfully!");
+                const updatedUser = window.api.getUser();
+                if (updatedUser) {
+                    document.getElementById("userName").innerText = updatedUser.name;
+                    document.getElementById("userGreeting").innerHTML = `Hi, ${updatedUser.name}`;
+                }
+                loadProfile();
+            } else {
+                showAlert("Update failed", "error");
+            }
+        };
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'my-items') loadMyItems();
+            if (tabName === 'incoming') loadIncomingRequests();
+            if (tabName === 'outgoing') loadOutgoingRequests();
+            if (tabName === 'edit-profile') loadProfile();
+        }
+
+        function cancelEdit() {
+            showTab('my-items');
+        }
+
+        loadMyItems();
+        loadIncomingRequests();
+        loadOutgoingRequests();
+        loadProfile();
+    </script>
 </body>
 </html>
